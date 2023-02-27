@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="maincss.css">
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+
+    <script src="./minelogic.js"></script>
+    <script src="./homejs.js"></script>
+    <style>
+        body{
+            background: #f0ecff;
+        }
+        .card{
+            margin-top: 30px;
+        }
+        #add-btn{
+            position: fixed;
+            right: 7%;
+            bottom: 5%;
+            height: 70px;
+            width: 70px;
+            font-size: 50px;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            cursor: pointer;
+             line-height: 1.2; 
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- loader html -->
+    <div id="loader" style="background: rgba(128, 128, 128, 0.658); position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; margin: auto auto; display: flex; justify-content: center; align-items: center; z-index: 1010101010; width: 100px; height: 100px; border-radius: 25px;">
+        <div class="lds-roller">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+    </div>
+     <!-- // loader html // -->
+
+     
+     
+     <!-- model -->
+                
+            <div class="modal fade" id="login-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Username:</label>
+                        <input type="text" class="form-control" id="Username">
+                        </div>
+                        <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Password:</label>
+                        <input type="password" class="form-control" id="Password">
+                        </div>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="a" type="button" class="btn btn-primary" onclick="loginBtnClicked()">Login</button>
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+  <!-- //model// -->
+
+
+  
+     <!-- model regester -->
+                
+     <div class="modal fade" id="register-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Register</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Username:</label>
+                <input type="text" class="form-control" id="Username-reg">
+                </div>
+                <div class="mb-3">
+                <label for="message-text" class="col-form-label">Password:</label>
+                <input type="password" class="form-control" id="Password-reg">
+                </div>
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="name-reg">
+                </div>
+                <div class="mb-3">
+                    <label for="image-profile" class="col-form-label">Image-Profile:</label>
+                    <input type="file" class="form-control" id="image-profile">
+                    </div>
+                    
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="a" type="button" class="btn btn-primary" onclick="registerBtnClicked()">Register</button>
+            
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+<!-- //model// regester -->
+
+
+     <!-- model creat post -->
+                
+     <div class="modal fade" id="creat-post-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="psot-modal-titile">Creat a new user</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                <label for="title-post" class="col-form-label">Title:</label>
+                <input type="text" class="form-control" id="title-post">
+
+                <input type="hidden" id="id-edit-post-input" value="">
+                </div>
+
+                <div class="mb-3">
+           
+                    <textarea name="" id="body-post" style="width: 100%; border-color: gray; border-radius: 10px; "  placeholder="body..."></textarea>  <!-- resize: none; -->
+               </div>
+               <div class="mb-3">
+                <label for="image-post" class="col-form-label">Image:</label>
+                <input type="file" class="form-control" id="image-post">
+                </div>
+                
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="post-modal-submit-btn" type="button" class="btn btn-primary" onclick="CreatPostBtnClicked()">Creat</button>
+            
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+<!-- //model// creat post -->
+
+
+  <!-- model deleat post -->
+                
+  <div class="modal fade" id="deleat-post-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="psot-modal-titile">are you sure you went to deleat the post?
+            <span id="deleat-post-titile"></span>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <input type="hidden" id="deleat-post-id-input" value="">
+        </div>
+        
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="post-modal-deleat-btn" type="button" class="btn btn-danger" onclick="confirmPostDeleat()">Yes Deleat</button>
+        
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<!-- //model// deleat post -->
+
+
+
+
+       <!-- creat post  -->
+        <div class="bg-primary" id="add-btn" onclick="addbtnClick()">
+            +
+        </div>
+       
+      <!-- //creat post//  -->
+
+
+
+
+
+    <!-- ==Alerts== -->
+    <div id="success-alert" class="show fade" style="position: fixed; right: 0; bottom: 0; width: 30%; z-index: 1000;"></div>
+    <!-- ==//Alert//s== -->
+
+    <div class="container pt-2">
+        <div class="d-flex justify-content-center">
+            <div class="col-9">
+ 
+                <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded">
+                    <div class="container-fluid">
+                    <a class="navbar-brand" href="home.html">Tarmmez</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="profileCLicked()" style="cursor: pointer;">Profile</a>
+                        </li>
+                        </ul>
+                        <!-- for non logeed in user -->
+                        <div id="login-div" class="d-flex w-100 justify-content-end">   <!--style="direction: rtl; width: 100%;" -->
+                            <button id="login-btn" type="button" class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#login-model">Login</button>
+                            <button id="register-btn" type="button" class="btn btn-outline-success " data-bs-toggle="modal" data-bs-target="#register-model">Register</button>  
+                        </div>
+
+                         <!-- for logeed in user -->
+                         <div  id="logout-div" class="d-flex w-100 justify-content-end">   <!--style="direction: rtl; width: 100%;" -->
+                            <div id="person-data">
+                                <img src="./img-person/تنزيل.jpeg" class="rounded-circle border border-2" alt="" style="height: 40px;width: 40px;">
+                                <b>othman99</b>
+                            </div>
+                         <button onclick="logout()" type="button" class="btn btn-outline-danger mx-2" data-bs-toggle="modal">Logout</button>
+                         
+                        </div>
+                        
+                    </div>
+                    </div>
+                </nav>
+        </div> 
+        </div>
+        
+    </div>
+   <div class="container ">
+        <div class="d-flex justify-content-center mt-5">
+                <div class="col-9">
+                    <!-- posts -->
+                    <div id="posts">
+                        <!-- post -->
+                        <div class="card shadow">
+                                <div class="card-header">
+                                    <img src="./img-person/تنزيل.jpeg" class="rounded-circle border border-2" alt="" style="height: 40px;width: 40px;">
+                                    <b>@othman</b>
+                                </div>
+                                <div class="card-body">
+                                    <img class="w-100" src="./img-posts/g2.jpeg" alt="">
+                                    <h6 style="color:#b1b0b2" class="mt-1">2 min</h6>
+                                    <h4>
+                                        hellow word
+                                    </h4>
+                                    <p>
+                                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora hic ex in labore repellendus cum vel velit ratione pariatur, mollitia omnis itaque dolorem ab consequuntur repudiandae repellat voluptatibus, eos assumenda!
+                                    </p>
+                                    <hr>
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                        </svg>
+                                        <span>
+                                            (3) Comments
+                                        </span>
+                                        <span id="tag">
+                                            <button type="button" class="btn btn-secondary mx-2">Secondary</button>
+                                            <button type="button" class="btn btn-secondary mx-2">Secondary</button>
+                                            <button type="button" class="btn btn-secondary mx-2">Secondary</button>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                              
+                        </div>
+                        <!-- //post// -->
+                        <!-- post -->
+                        <div class="card shadow ">
+                            <div class="card-header">
+                                <img src="./img-person/تنزيل.jpeg" class="rounded-circle border border-2" alt="" style="height: 40px;width: 40px;">
+                                <b>@othman</b>
+                            </div>
+                            <div class="card-body">
+                                <img class="w-100" src="./img-posts/g2.jpeg" alt="">
+                                <h6 style="color:#b1b0b2" class="mt-1">2 min</h6>
+                                <h4>
+                                    hellow word
+                                </h4>
+                                <p>
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora hic ex in labore repellendus cum vel velit ratione pariatur, mollitia omnis itaque dolorem ab consequuntur repudiandae repellat voluptatibus, eos assumenda!
+                                </p>
+                                <hr>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                    </svg>
+                                    <span>
+                                        (3) Comments
+                                    </span>
+                                </div>
+                                
+                            </div>
+
+                            
+                       </div>
+                       <!-- //post// -->
+
+                       <!-- post -->
+                       <div class="card shadow">
+                        <div class="card-header">
+                            <img src="./img-person/تنزيل.jpeg" class="rounded-circle border border-2" alt="" style="height: 40px;width: 40px;">
+                            <b>@othman</b>
+                        </div>
+                        <div class="card-body">
+                            <img class="w-100" src="./img-posts/g2.jpeg" alt="">
+                            <h6 style="color:#b1b0b2" class="mt-1">2 min</h6>
+                            <h4>
+                                hellow word
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora hic ex in labore repellendus cum vel velit ratione pariatur, mollitia omnis itaque dolorem ab consequuntur repudiandae repellat voluptatibus, eos assumenda!
+                            </p>
+                            <hr>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                </svg>
+                                <span>
+                                    (3) Comments
+                                </span>
+                            </div>
+                            
+                        </div>
+
+                        
+                        </div>
+                        <!-- //post// -->
+                    
+                    </div>
+                    <!-- // posts // -->
+                </div>
+        </div>  
+        
+        <div style="width: 100%; height: 100px;">
+
+        </div>
+   </div>
+
+
+   
+</body>
+<!-- <script src="./minelogic.js"></script>
+<script src="./homejs.js"></script> -->
+<script>
+ getPosts()  
+ //setUpUi()   
+ setUpUi()
+
+ 
+  
+</script>
+</html>
